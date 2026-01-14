@@ -28,15 +28,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*
 * Declare Routes
 */
-// Define a route handler for the root URL ('/')
-app.get('/', (req, res) => {
-    res.send(`Welcome, ${name}!`);
-});
+app.get('/',(req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/home.html'));
+})
 
-// Define a route handler for a new server route
-app.get('/new-route', (req, res) => {
-    res.send('This is a new route!');
-});
+app.get('/about',(req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/home.html'));
+})
+
+app.get('/products',(req, res) => {
+    res.sendFile(path.join(__dirname, 'src/views/home.html'));
+})
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
