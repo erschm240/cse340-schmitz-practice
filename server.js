@@ -7,7 +7,7 @@ import path from 'path';
 * Declare Important Variables 
 */
 // Define the port number the server will listen on
-const NODE_ENV = process.env.NOVE_ENV || 'production';
+const NODE_ENV = process.env.NODE_ENV || 'production';
 const PORT = process.env.port || 3000;
 
 // Define filename and dirname for locating module files
@@ -45,6 +45,43 @@ app.use((req, res, next) => {
     next();
 });
 
+// Course data - place this after imports, before routes
+const courses = {
+    'CS121': {
+        id: 'CS121',
+        title: 'Introduction to Programming',
+        description: 'Learn programming fundamentals using JavaScript and basic web development concepts.',
+        credits: 3,
+        sections: [
+            { time: '9:00 AM', room: 'STC 392', professor: 'Brother Jack' },
+            { time: '2:00 PM', room: 'STC 394', professor: 'Sister Enkey' },
+            { time: '11:00 AM', room: 'STC 390', professor: 'Brother Keers' }
+        ]
+    },
+    'MATH110': {
+        id: 'MATH110',
+        title: 'College Algebra',
+        description: 'Fundamental algebraic concepts including functions, graphing, and problem solving.',
+        credits: 4,
+        sections: [
+            { time: '8:00 AM', room: 'MC 301', professor: 'Sister Anderson' },
+            { time: '1:00 PM', room: 'MC 305', professor: 'Brother Miller' },
+            { time: '3:00 PM', room: 'MC 307', professor: 'Brother Thompson' }
+        ]
+    },
+    'ENG101': {
+        id: 'ENG101',
+        title: 'Academic Writing',
+        description: 'Develop writing skills for academic and professional communication.',
+        credits: 3,
+        sections: [
+            { time: '10:00 AM', room: 'GEB 201', professor: 'Sister Anderson' },
+            { time: '12:00 PM', room: 'GEB 205', professor: 'Brother Davis' },
+            { time: '4:00 PM', room: 'GEB 203', professor: 'Sister Enkey' }
+        ]
+    }
+};
+
 /*
 * Declare Routes
 */
@@ -71,6 +108,13 @@ app.get('/student', (req, res) => {
     const address =  '123 College Ave';
     res.render('student', {title, name, id, email, address});
 })
+
+app.get('/catalog', (req, res) =>{
+    res.render('catalog', {
+        title: 'Course Catalog',
+        courses: courses
+    });
+});
 
 // Test route for 500 errors
 app.get('/test-error', (req, res, next) => {
@@ -101,7 +145,8 @@ app.use((err, req, res, next) => {
     const context = {
         title: status === 404 ? 'Page Not Found' : 'Server Error',
         error: NODE_ENV === 'production' ? 'An error occurred' : err.message,
-        stack: NODE_ENV === 'production' ? null : err.stack
+        stack: NODE_ENV === 'production' ? null : err.stack,
+        NODE_ENV // Our WebSocket check needs this and its convenient to pass along
     };
 
     // Render the appropriate error template with fallback
@@ -116,9 +161,10 @@ app.use((err, req, res, next) => {
 });
 
 // When in development mode, start a WebSocket server for live reloading
+console.log(NODE_ENV);
 if (NODE_ENV.includes('dev')) {
     const ws = await import('ws');
-
+    console.log('Loading');
     try {
         const wsPort = parseInt(PORT) + 1;
         const wsServer = new ws.WebSocketServer({ port: wsPort });
