@@ -117,30 +117,37 @@ app.get('/catalog', (req, res) =>{
     });
 });
 
-// Course detail page with route parameter
-app.get('/catalog/:courseId', (req, res) => {
-    // Extract the courseID from the URL
+// Enhanced course detail route with sorting
+app.get('/catalog/:courseId', (req, res, next) => {
     const courseId = req.params.courseId;
-
-    // Look up the course in our data
     const course = courses[courseId];
-
-    // Handle course not found
     if (!course) {
         const err = new Error(`Course ${courseId} not found`);
         err.status = 404;
         return next(err);
     }
-
-    // Log the parameter for debugging
-    console.log('Viewing course:', courseId);
-
-    // Render the course detail template
+    // Get sort parameter (default to 'time')
+    const sortBy = req.query.sort || 'time';
+    // Create a copy of sections to sort
+    let sortedSections = [...course.sections];
+    // Sort based on the parameter
+    switch (sortBy) {
+        case 'professor':
+            sortedSections.sort((a, b) => a.professor.localeCompare(b.professor));
+            break;
+        case 'room':
+            sortedSections.sort((a, b) => a.room.localeCompare(b.room));
+            break;
+        case 'time':
+        default:
+            // Keep original time order as default
+            break;
+    }
     res.render('course-detail', {
         title: `${course.id} - ${course.title}`,
-        course: course
+        course: { ...course, sections: sortedSections },
+        currentSort: sortBy
     });
-
 });
 
 // Test route for 500 errors
@@ -188,10 +195,8 @@ app.use((err, req, res, next) => {
 });
 
 // When in development mode, start a WebSocket server for live reloading
-console.log(NODE_ENV);
 if (NODE_ENV.includes('dev')) {
     const ws = await import('ws');
-    console.log('Loading');
     try {
         const wsPort = parseInt(PORT) + 1;
         const wsServer = new ws.WebSocketServer({ port: wsPort });
