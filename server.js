@@ -4,48 +4,6 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { title } from 'process';
 
-/*
-* Declare Important Variables 
-*/
-// Define the port number the server will listen on
-const NODE_ENV = process.env.NODE_ENV || 'production';
-const PORT = process.env.port || 3000;
-
-// Define filename and dirname for locating module files
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-/*
-* Setup Express Server
-*/
-// Create an instance of an Express application
-const app = express();
-
-/*
-* Configure Express Middleware
-*/
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Set EJS as the templating engine
-app.set('view engine', 'ejs');
-
-// Tell Express wehere to find the templates
-app.set('views', path.join(__dirname, 'src/views'));
-
-/*
- * Global template variables middleware
- * 
- * Makes common variables available to all EJS templates without having * to pass them individually from each route handler
- */
-app.use((req, res, next) => {
-    // Make NODE_ENV available to all templates
-    res.locals.NODE_ENV = NODE_ENV.toLowerCase() || 'production';
-
-    // Continue to the next middleware or route handler
-    next();
-});
-
 // Course data - place this after imports, before routes
 const courses = {
     'CS121': {
@@ -82,6 +40,94 @@ const courses = {
         ]
     }
 };
+
+/*
+* Declare Important Variables 
+*/
+// Define the port number the server will listen on
+const NODE_ENV = process.env.NODE_ENV || 'production';
+const PORT = process.env.port || 3000;
+
+// Define filename and dirname for locating module files
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/*
+* Setup Express Server
+*/
+// Create an instance of an Express application
+const app = express();
+
+/*
+* Configure Express Middleware
+*/
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Set EJS as the templating engine
+app.set('view engine', 'ejs');
+
+// Tell Express wehere to find the templates
+app.set('views', path.join(__dirname, 'src/views'));
+
+app.use ((req, res, next) => {
+    // Skip loggin for routes that start with ./ (like /.well-known/)
+    if (!req.path.startsWith('./')) {
+    }
+    next(); // Pass control to the next middleware or route
+});
+
+app.use((req, res, next) => {
+    res.locals.currentYear = new Date().getFullYear();
+
+    next();
+});
+
+app.use((req, res, next) => {
+    const currentHour = new Date().getHours();
+
+    if (currentHour < 12) {
+        res.locals.greeting = "Good morning."
+    }
+    else if (currentHour > 12 && currentHour < 17) {
+        res.locals.greeting = "Good afternoon."
+    }
+    else {
+        res.locals.greeting = "Good evening."
+    }
+
+    next();
+});
+
+app.use((req, res, next) => {
+    const themes = ['blue-theme', 'green-theme', 'red-theme']
+    const randomIndex = Math.floor(Math.random() * themes.length);
+    const randomTheme = themes[randomIndex];
+    res.locals.bodyClass = randomTheme;
+
+    next();
+});
+
+// Global middleware to share query parameters with templates
+app.use((req, res, next) => {
+    res.locals.queryParams = req.query || {};
+
+    next();
+});
+
+/*
+ * Global template variables middleware
+ * 
+ * Makes common variables available to all EJS templates without having * to pass them individually from each route handler
+ */
+app.use((req, res, next) => {
+    // Make NODE_ENV available to all templates
+    res.locals.NODE_ENV = NODE_ENV.toLowerCase() || 'production';
+
+    // Continue to the next middleware or route handler
+    next();
+});
+
 
 /*
 * Declare Routes
@@ -143,7 +189,7 @@ app.get('/catalog/:courseId', (req, res, next) => {
             // Keep original time order as default
             break;
     }
-    res.render('course-detail', {
+    res.render('course-details', {
         title: `${course.id} - ${course.title}`,
         course: { ...course, sections: sortedSections },
         currentSort: sortBy
