@@ -4,9 +4,9 @@
         <h1><%= course.title %></h1>
         <p class="course-meta"><%= course.id %> • <%= course.credits %> credits</p>
         <p class="course-description"><%= course.description %></p>
-        <% if ('professor') { %>
+        <% if ( queryParams.sort != null ) { %>
             <div class="sort-message">
-                <p>Currently sorted by: <%=  %></p>
+                <p>Currently sorted by: <%= queryParams.sort %></p>
             </div>
         <% } else { %>
             <div class="sort-message">
