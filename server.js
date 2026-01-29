@@ -115,6 +115,16 @@ app.use((req, res, next) => {
     next();
 });
 
+// Route-specific  middleware that sets custom headers
+const addDemoHeaders = (req, res, next) => {
+    // X-Demo-Page header
+    res.setHeader('X-Demo-Page', 'true');
+    // X-Middleware-Demo header
+    res.setHeader('X-Middleware-Demo', 'This is my demo page!');
+
+    next();
+};
+
 /*
  * Global template variables middleware
  * 
@@ -135,26 +145,12 @@ app.use((req, res, next) => {
 app.get('/',(req, res) => {
     const title = 'Welcome Home';
     res.render('home', {title});
-})
+});
 
 app.get('/about',(req, res) => {
     const title = 'About Me';
     res.render('about', {title});
-})
-
-app.get('/products',(req, res) => {
-    const title = 'Our Products';
-    res.render('products', {title});
-})
-
-app.get('/student', (req, res) => {
-    const title = 'Student Information';
-    const name = 'Emma';
-    const id = '48370592';
-    const email = 'stu25083@byui.edu';
-    const address =  '123 College Ave';
-    res.render('student', {title, name, id, email, address});
-})
+});
 
 app.get('/catalog', (req, res) =>{
     res.render('catalog', {
@@ -196,6 +192,13 @@ app.get('/catalog/:courseId', (req, res, next) => {
     });
 });
 
+// Demo page route with header middleware
+app.get('/demo', addDemoHeaders, (req, res) => {
+    res.render('demo', {
+        title: 'Middleware Demo Page'
+    });
+});
+
 // Test route for 500 errors
 app.get('/test-error', (req, res, next) => {
     const err = new Error('This is a test error');
@@ -208,7 +211,7 @@ app.use((req, res, next) => {
     const err = new Error('Page Not Found');
     err.status = 404;
     next(err);
-})
+});
 
 // Global error handler
 app.use((err, req, res, next) => {
