@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+<main>
+    <div class="faculty-header">
+        <h1><%= facultyMember.name %></h1>
+        <p class="faculty-dept"><%= facultyMember.department %></p>
+        <p class="faculty-title"><%= facultyMember.title %></p>
+        <% if ( queryParams.sort != null ) { %>
+            <div class="sort-message">
+                <p>Currently sorted by: <%= queryParams.sort %></p>
+            </div>
+        <% } else { %>
+            <div class="sort-message">
+                <p>No sorting applied, using default sorting by department.</p>
+                <% } %>
+            </div>
+    </div>
+    <div class="faculty-details">
+        <div class="details">
+            <h2>Details for <%= facultyMember.name %></h2>
+            <p class="faculty-office"><%= facultyMember.office %></p>
+            <p class="faculty-title"><%= facultyMember.title %></p>
+            <p class="faculty-phone"><%= facultyMember.phone %></p>
+            <p class="faculty-email"><%= facultyMember.email %></p>
+            
+        </div>
+    </div>
+    <div class="navigation">
+        <p><a href="/list">&larr; Back to Faculty List</a></p>
+    </div>
+</main>
+<%- include('partials/footer') %>

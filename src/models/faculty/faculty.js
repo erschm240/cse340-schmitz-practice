@@ -1,6 +1,7 @@
 // Faculty data object
 const faculty = {
     'brother-jack': {
+        id: 'brother-jack',
         name: 'Brother Jack',
         office: 'STC 392',
         phone: '208-496-1234',
@@ -9,6 +10,7 @@ const faculty = {
         title: 'Associate Professor'
     },
     'sister-enkey': {
+        id: 'sister-enkey',
         name: 'Sister Enkey',
         office: 'STC 394',
         phone: '208-496-2345', 
@@ -17,6 +19,7 @@ const faculty = {
         title: 'Assistant Professor'
     },
     'brother-keers': {
+        id: 'brother-keers',
         name: 'Brother Keers',
         office: 'STC 390',
         phone: '208-496-3456',
@@ -25,6 +28,7 @@ const faculty = {
         title: 'Professor'
     },
     'sister-anderson': {
+        id: 'sister-anderson',
         name: 'Sister Anderson',
         office: 'MC 301',
         phone: '208-496-4567',
@@ -33,6 +37,7 @@ const faculty = {
         title: 'Professor'
     },
     'brother-miller': {
+        id: 'brother-miller',
         name: 'Brother Miller',
         office: 'MC 305',
         phone: '208-496-5678',
@@ -41,6 +46,7 @@ const faculty = {
         title: 'Associate Professor'
     },
     'brother-thompson': {
+        id: 'brother-thompson',
         name: 'Brother Thompson', 
         office: 'MC 307',
         phone: '208-496-6789',
@@ -49,6 +55,7 @@ const faculty = {
         title: 'Assistant Professor'
     },
     'brother-davis': {
+        id: 'brother-davis',
         name: 'Brother Davis',
         office: 'GEB 205',
         phone: '208-496-7890',
@@ -57,6 +64,7 @@ const faculty = {
         title: 'Professor'
     },
     'brother-wilson': {
+        id: 'brother-wilson',
         name: 'Brother Wilson',
         office: 'GEB 301', 
         phone: '208-496-8901',
@@ -65,6 +73,7 @@ const faculty = {
         title: 'Associate Professor'
     },
     'sister-roberts': {
+        id: 'sister-roberts',
         name: 'Sister Roberts',
         office: 'GEB 305',
         phone: '208-496-9012',
