@@ -92,29 +92,22 @@ const getFacultyById = (facultyId) => {
     return faculty[facultyId] || null;
 };
 
-const getSortedFaculty = (sortBy) => {
-    // TODO: Validate sortBy parameter (name, department, or title), default to 'department' if invalid
-    const viewType = req.query.view;
-
+const getSortedFaculty = (faculty, sortBy) => {
+    // TODO: Validate sortBy parameter (name, department, or title), default to 'name' if invalid
     // Valid options
-    const validViews = ['name', 'department', 'title'];
+    const validSort = ['name', 'department', 'title'];
 
-    // Validate provided view
-    if(viewType && !validViews.includes(viewType)) {
-        return res.status(400).send('Invalid view type. Must be name, department, or title.')
-    }
-
-    // Use validated view or default (department)
-    const finalView = viewType || 'department';
-    res.send(`Sorted by ${finalView}`);
+    // Validate provided sort
+    if(sortBy && !validSort.includes(sortBy)) {
+        sortBy = 'name';
+    };
 
     // Create an array of all faculty members
     const facultyArray = [];
     for (const key in faculty) {
         // Add each individual faculty object to the array
-        facultyArray.push(faculty[key]);
+        facultyArray.push({...faculty[key], id: key});
     }
-
     // Sort the array by the chosen property
     facultyArray.sort((a, b) => {
         // Compare the property values
@@ -125,8 +118,8 @@ const getSortedFaculty = (sortBy) => {
             return 1;
         }
         return 0; // They are equal
-    });
 
+    });
     // Return the sorted array
     return facultyArray;
 };

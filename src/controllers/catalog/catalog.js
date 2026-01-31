@@ -23,8 +23,16 @@ const courseDetailPage = (req, res, next) => {
     }
 
     // Handle sorting if requested
-    const sortBy = req.query.sort || 'time';
+    let sortBy = req.query.sort || 'time';
     const sortedSections = getSortedSections(course.sections, sortBy);
+
+    // Valid options
+    const validSort = ['time', 'professor', 'room'];
+
+    // Validate sortBy
+    if(sortBy && !validSort.includes(sortBy)) {
+        sortBy = 'time';
+    };
 
     res.render('course-details', {
         title: `${course.id} - ${course.title}`,

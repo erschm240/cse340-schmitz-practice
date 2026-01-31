@@ -17,25 +17,31 @@ body {
     &.red-theme { background-color: #ffebee; }
 
     nav {
+        padding: 20px;
+        margin: -20px -20px 20px -20px;
+        background-color: #363636;
+
         ul {
             list-style-type: none;
             padding: 0;
+            display: flex;
+            justify-content: space-between;
         }
 
         li {
-            display: inline;
             margin-right: 15px;
         }
 
         a {
             text-decoration: none;
-            color: #333;
+            color: white;
             font-weight: bold;
 
             &:hover {
                 color: #0066cc;
             }
         }
+        
     }
     img {
         max-width: 250px;
