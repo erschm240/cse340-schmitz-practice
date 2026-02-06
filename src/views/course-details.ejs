@@ -11,8 +11,8 @@
         <% } else { %>
             <div class="sort-message">
                 <p>No sorting applied, using default sorting by time.</p>
-                <% } %>
             </div>
+        <% } %>
     </div>
     <div class="sections">
         <div class="sections-header">
@@ -25,7 +25,11 @@
             </div>
         </div>
         <div class="section-list">
-            <% if (!Object.keys(sections).length === 0) { %>
+            <% if (Object.keys(sections).length === 0) { %>
+                <div class="section-card">
+                    <p>No sections found for <%= course.name %></p>
+                </div>
+            <% } else { %>
                 <% course.sections.forEach(section => { %>
                     <div class="section-card">
                         <div class="section-time"><%= section.time %></div>
@@ -33,12 +37,7 @@
                         <div class="section-professor">Instructor: <%= section.professor %></div>
                     </div>
                 <% }); %>
-            <% else { %>
-                <div class="section-card">
-                    <p>No sections found for <%= course.name %></p>
-                </div>
             <% } %>
-        <% } %>
         </div>
     </div>
     <div class="navigation">
