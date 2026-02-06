@@ -6,7 +6,7 @@ const catalogPage = async (req, res) => {
     // Model functions are async, so we must await them
     const courses = await getAllCourses();
     
-    res.render('catalog', {
+    res.render('catalog/list', {
         title: 'Course Catalog',
         courses: courses
     });
@@ -31,7 +31,7 @@ const courseDetailPage = async (req, res, next) => {
     // Pass the sortBy parameter directly to the model - PostgreSQL handles the sorting
     const sortBy = req.query.sort || 'time';
     const sections = await getSectionsByCourseSlug(courseSlug, sortBy);
-    res.render('course-details', {
+    res.render('catalog/detail', {
         title: course.name,
         course: course,
         sections: sections,
