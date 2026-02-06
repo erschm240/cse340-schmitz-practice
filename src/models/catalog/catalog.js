@@ -42,7 +42,6 @@ const getSectionsByCourse = async (identifier, identifierType = 'slug', sortBy =
     `;
     
     const result = await db.query(query, [identifier]);
-    console.log('Query result rows: ', result.rows);
     
     /**
      * Transform database column names (snake_case) to JavaScript convention (camelCase).
