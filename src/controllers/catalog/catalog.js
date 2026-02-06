@@ -31,7 +31,6 @@ const courseDetailPage = async (req, res, next) => {
     // Pass the sortBy parameter directly to the model - PostgreSQL handles the sorting
     const sortBy = req.query.sort || 'time';
     const sections = await getSectionsByCourseSlug(courseSlug, sortBy);
-    console.log('Current Section: ', sections);
     res.render('course-details', {
         title: course.name,
         course: course,
