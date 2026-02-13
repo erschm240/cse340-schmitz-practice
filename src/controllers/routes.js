@@ -26,6 +26,12 @@ router.use('/contact', (req, res, next) => {
     next();
 });
 
+// Add registration-specific styles to all registration routes
+router.use('/register', (req, res, next) => {
+    res.addStyle('<link rel="stylesheet" href="/css/registration.css">');
+    next();
+})
+
 // Home and basic pages
 router.get('/', homePage);
 router.get('/about', aboutPage);
