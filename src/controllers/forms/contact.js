@@ -31,6 +31,7 @@ const handleContactSubmission = async (req, res) => {
 
     // Extract validated data
     const { subject, message } = req.body;
+    console.log("Subject: ", subject, "Body: ", message);
 
     try {
         // Save to database
