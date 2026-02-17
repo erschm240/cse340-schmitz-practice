@@ -33,6 +33,12 @@ router.use('/register', (req, res, next) => {
     next();
 });
 
+// Add login-specific styles to all login routes
+router.use('/login', (req, res, next) => {
+    req.addStyle('<link res="stylesheet" href="/css/login.css">');
+    next();
+});
+
 // Home and basic pages
 router.get('/', homePage);
 router.get('/about', aboutPage);
