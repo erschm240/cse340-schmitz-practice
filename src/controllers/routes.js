@@ -5,6 +5,9 @@ import { homePage, aboutPage, demoPage, testErrorPage } from './index.js';
 import { facultyDetailPage, facultyListPage } from './faculty/faculty.js';
 import contactRoutes from './forms/contact.js';
 import registrationRoutes from './forms/registration.js';
+import loginRoutes from './forms/login.js';
+import { processLogout, showDashboard } from './forms/login.js';
+import { requireLogin } from '../middleware/auth.js';
 
 // Create a new router instance
 const router = Router();
@@ -56,6 +59,13 @@ router.use('/contact', contactRoutes);
 
 // Registration routes
 router.use('/register', registrationRoutes);
+
+// Login routes (form and submission)
+router.use('/login', loginRoutes);
+
+// Authentication-related routes at root level
+router.get("/logout", processLogout);
+router.get('/dashboard', requireLogin, showDashboard);
 
 // Demo page with special middleware
 router.get('/demo', addDemoHeaders, demoPage);

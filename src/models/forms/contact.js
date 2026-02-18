@@ -5,7 +5,7 @@ import db from '../db.js';
  * 
  * @param {string} subject - The subject of the contact message
  * @param {string} message - The message content
- * @returns {Promise<Object>} - The newly created contact form record
+ * @returns {Promise<Object>} The newly created contact form record
  */
 const createContactForm = async( subject, message) => {
     const query =`
@@ -20,7 +20,7 @@ const createContactForm = async( subject, message) => {
 /**
  * Retrieves all contact form submissions, ordered by most recent first.
  * 
- * @returns {PromiseArray} - Array of contact form records
+ * @returns {PromiseArray} Array of contact form records
  */
 const getAllContactForms = async () => {
     const query = `

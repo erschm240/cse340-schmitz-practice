@@ -9,8 +9,26 @@ import db from '../db.js';
  */
 const findUserByEmail = async (email) => {
     const query = `
-        SELECT id, name, LOWER(email), password, created_at
+        SELECT id, name, email, password, created_at
         FROM users
+        WHERE LOWER(email) = LOWER($1)
         ORDER BY created_at DESC
+        LIMIT 1
     `;
-}
+    const result = await db.query(query);
+    return result.rows[0] || null;
+};
+
+/**
+ * Verify a plain text password against a stored bcrypt hash.
+ * 
+ * @param {string} plainPassword - The password to verify
+ * @param {string} hashedPassword - The stored password hash
+ * @returns {Promise<boolean>} True if password matches, false otherwise
+ */
+const verifyPassword = async (plainPassword, hashedPassword) => {
+    comparePasswords = bcrypt.compare(plainPassword, hashedPassword);
+    return comparePasswords;
+};
+
+export { findUserByEmail, verifyPassword };

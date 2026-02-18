@@ -4,7 +4,7 @@ import db from '../db.js';
  * Checks if an email address is already registered in the database.
  * 
  * @param {string} email - The email address to check
- * @returns {Promise<boolean>} - True if email exists, false otherwise
+ * @returns {Promise<boolean>} True if email exists, false otherwise
  */
 const emailExists = async (email) => {
     const query = `
@@ -20,7 +20,7 @@ const emailExists = async (email) => {
  * @param {string} name - The user's full name
  * @param {string} email - The user's email address
  * @param {string} hashedPassword - The bcrypt-hashed password
- * @returns {Promise<Object>} - The newly created user record (without password)
+ * @returns {Promise<Object>} The newly created user record (without password)
  */
 const saveUser = async (name, email, hashedPassword) => {
     const query = `
@@ -35,7 +35,7 @@ const saveUser = async (name, email, hashedPassword) => {
 /**
  * Retrieves all registered users from the database.
  * 
- * @returns {Promise<Array>} - Array of user records (without passwords)
+ * @returns {Promise<Array>} Array of user records (without passwords)
  */
 const getAllUsers = async () => {
     const query = `

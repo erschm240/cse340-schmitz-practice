@@ -26,7 +26,7 @@ const facultyDetailPage = async (req, res, next) => {
     }
 
     res.render('faculty/details', {
-        title: `${facultyMember.name} - Faculty Profile`,
+        title: `${facultyMember.name} Faculty Profile`,
         faculty: facultyMember
     });
 };
