@@ -23,24 +23,27 @@ const handleContactSubmission = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        // Log validation errors for developer debugging
-        console.error('Validation errors:', errors.array());
-        // Redirect back to form without saving
+        // Client-side error message
+        errors.array().forEach(error => {
+            req.flash('error', error.msg);
+        });
         return res.redirect('/contact');
     }
 
     // Extract validated data
     const { subject, message } = req.body;
-    console.log("Subject: ", subject, "Body: ", message);
 
     try {
         // Save to database
         await createContactForm(subject, message);
-        console.log('Contact form submitted successfully');
-        // Redirect to responses page on success
-        res.redirect('/contact/responses');
+        // Client-side success message
+        req.flash('success', 'Thank you for contacting us! We will respond soon.');
+        res.redirect('/contact');
     } catch (error) {
+        // Server-side error details
         console.error('Error saving contact form:', error);
+        // Client-side error message
+        req.flash('error', 'Unable to submit your message. Please try again later.');
         res.redirect('/contact');
     }
 };
