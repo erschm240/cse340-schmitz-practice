@@ -7,7 +7,7 @@ import db from "../models/db.js";
 const cleanupExpiredSessions = async ( ) => {
     try {
         const result = await db.query(
-            `DELETE FROM session WHERE explire < NOW()`
+            `DELETE FROM session WHERE expire < NOW()`
         );
         if (result.rowCount > 0) {
             console.log(`Cleaned up ${result.rowCount} expired sessions`);

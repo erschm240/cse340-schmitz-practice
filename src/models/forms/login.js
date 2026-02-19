@@ -5,17 +5,16 @@ import db from '../db.js';
  * Find a user by email address for login verification.
  * 
  * @param {string} email - Email address to search for
- * @returns {Promise<Object|null>} User object with password hash or nul if not found
+ * @returns {Promise<Object|null>} User object with password hash or null if not found
  */
 const findUserByEmail = async (email) => {
     const query = `
         SELECT id, name, email, password, created_at
         FROM users
         WHERE LOWER(email) = LOWER($1)
-        ORDER BY created_at DESC
         LIMIT 1
     `;
-    const result = await db.query(query);
+    const result = await db.query(query, [email]);
     return result.rows[0] || null;
 };
 
@@ -27,7 +26,7 @@ const findUserByEmail = async (email) => {
  * @returns {Promise<boolean>} True if password matches, false otherwise
  */
 const verifyPassword = async (plainPassword, hashedPassword) => {
-    comparePasswords = bcrypt.compare(plainPassword, hashedPassword);
+    const comparePasswords = await bcrypt.compare(plainPassword, hashedPassword);
     return comparePasswords;
 };
 

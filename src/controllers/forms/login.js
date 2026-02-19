@@ -44,14 +44,14 @@ const processLogin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const findUser = await findUserByEmail(email);
+        const user = await findUserByEmail(email);
 
-        if (!findUser) {
+        if (!user) {
             console.log('User not found');
             return res.redirect('/login');
         }
 
-        const verifyPwd = verifyPassword(password, user.password);
+        const verifyPwd = await verifyPassword(password, user.password);
         if (!verifyPwd) {
             console.log('Invalid password');
             return res.redirect('/login');
@@ -61,6 +61,7 @@ const processLogin = async (req, res) => {
         delete user.password;
 
         req.session.user = user;
+
         res.redirect('/dashboard');
     } catch (error) {
         console.error('Error during login: ', error);
