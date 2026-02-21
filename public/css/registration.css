@@ -1,5 +1,5 @@
 /* Registration Form Styles */
-.registration-form {
+.registration-form, .edit-form {
     max-width: 600px;
     margin: 2rem auto;
     padding: 2rem;
