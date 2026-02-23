@@ -53,6 +53,20 @@ body {
         max-width: 250px;
         border-radius: 15px;
     }
+
+    .logout-button {
+        display: inline-block;
+        padding: 1rem;
+        background-color: #2c5aa0;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
 }
 
 /* Flash Messages */

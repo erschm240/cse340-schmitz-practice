@@ -2,7 +2,7 @@
 <main>
     <h1><%= title %></h1>
 
-    <form method="POST" action="/register/<%= user.id %>/edit" class="edit-form">
+    <form method="POST" action="/register/<%= user.id %>/edit" class="edit-form" novalidate>
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="<%= user.name %>" required>
