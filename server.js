@@ -123,13 +123,14 @@ app.use((err, req, res, next) => {
 
 /**
  * Start WebSocket Server in Development Mode; used for live reloading
+ * ws = webSocket
  */
 if (NODE_ENV.includes('dev')) {
-    const ws = await import('ws');
+    const webSocket = await import('ws');
 
     try {
         const wsPort = parseInt(PORT) + 1;
-        const wsServer = new ws.WebSocketServer({ port: wsPort });
+        const wsServer = new webSocket.WebSocketServer({ port: wsPort });
 
         wsServer.on('listening', () => {
             console.log(`WebSocket server is running on port ${wsPort}`);
